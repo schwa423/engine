@@ -116,7 +116,7 @@ class SceneUpdateContext {
   mozart::client::Session* session() { return session_; }
 
   bool has_metrics() const { return !!metrics_; }
-  void set_metrics(mozart2::MetricsPtr metrics) {
+  void set_metrics(scenic::MetricsPtr metrics) {
     metrics_ = std::move(metrics);
   }
 
@@ -179,7 +179,7 @@ class SceneUpdateContext {
   mozart::client::Session* const session_;
   SurfaceProducer* const surface_producer_;
 
-  mozart2::MetricsPtr metrics_;
+  scenic::MetricsPtr metrics_;
 
   std::vector<PaintTask> paint_tasks_;
 

@@ -7,7 +7,7 @@
 
 namespace flutter_runner {
 
-SessionConnection::SessionConnection(mozart2::SceneManagerPtr scene_manager,
+SessionConnection::SessionConnection(scenic::SceneManagerPtr scene_manager,
                                      mx::eventpair import_token)
     : session_(scene_manager.get()),
       root_node_(&session_),
@@ -22,8 +22,8 @@ SessionConnection::SessionConnection(mozart2::SceneManagerPtr scene_manager,
                                        std::placeholders::_2));
 
   root_node_.Bind(std::move(import_token));
-  root_node_.SetEventMask(mozart2::kMetricsEventMask);
-  session_.Present(0, [](mozart2::PresentationInfoPtr info) {});
+  root_node_.SetEventMask(scenic::kMetricsEventMask);
+  session_.Present(0, [](mozart::PresentationInfoPtr info) {});
 
   present_callback_ =
       std::bind(&SessionConnection::OnPresent, this, std::placeholders::_1);
@@ -40,8 +40,8 @@ void SessionConnection::OnSessionError() {
 }
 
 void SessionConnection::OnSessionEvents(uint64_t presentation_time,
-                                        fidl::Array<mozart2::EventPtr> events) {
-  mozart2::MetricsPtr new_metrics;
+                                        fidl::Array<scenic::EventPtr> events) {
+  scenic::MetricsPtr new_metrics;
   for (const auto& event : events) {
     if (event->is_metrics() &&
         event->get_metrics()->node_id == root_node_.id()) {
@@ -82,7 +82,7 @@ void SessionConnection::Present(flow::CompositorContext::ScopedFrame& frame,
   EnqueueClearOps();
 }
 
-void SessionConnection::OnPresent(mozart2::PresentationInfoPtr info) {
+void SessionConnection::OnPresent(mozart::PresentationInfoPtr info) {
   ASSERT_IS_GPU_THREAD;
   auto callback = pending_on_present_callback_;
   pending_on_present_callback_ = nullptr;

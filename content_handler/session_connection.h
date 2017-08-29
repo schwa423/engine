@@ -20,7 +20,7 @@ namespace flutter_runner {
 
 class SessionConnection {
  public:
-  SessionConnection(mozart2::SceneManagerPtr scene_manager,
+  SessionConnection(scenic::SceneManagerPtr scene_manager,
                     mx::eventpair import_token);
 
   ~SessionConnection();
@@ -54,11 +54,11 @@ class SessionConnection {
 
   void OnSessionError();
   void OnSessionEvents(uint64_t presentation_time,
-                       fidl::Array<mozart2::EventPtr> events);
+                       fidl::Array<scenic::EventPtr> events);
 
   void EnqueueClearOps();
 
-  void OnPresent(mozart2::PresentationInfoPtr info);
+  void OnPresent(mozart::PresentationInfoPtr info);
 
   FTL_DISALLOW_COPY_AND_ASSIGN(SessionConnection);
 };

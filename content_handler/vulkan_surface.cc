@@ -232,15 +232,15 @@ bool VulkanSurface::PushSessionImageSetupOps(mozart::client::Session* session,
   }
 
   mozart::client::Memory memory(session, std::move(exported_vmo),
-                                mozart2::MemoryType::VK_DEVICE_MEMORY);
+                                mozart::MemoryType::VK_DEVICE_MEMORY);
 
-  auto image_info = mozart2::ImageInfo::New();
+  auto image_info = mozart::ImageInfo::New();
   image_info->width = sk_surface_->width();
   image_info->height = sk_surface_->height();
   image_info->stride = 4 * sk_surface_->width();
-  image_info->pixel_format = mozart2::ImageInfo::PixelFormat::BGRA_8;
-  image_info->color_space = mozart2::ImageInfo::ColorSpace::SRGB;
-  image_info->tiling = mozart2::ImageInfo::Tiling::LINEAR;
+  image_info->pixel_format = mozart::ImageInfo::PixelFormat::BGRA_8;
+  image_info->color_space = mozart::ImageInfo::ColorSpace::SRGB;
+  image_info->tiling = mozart::ImageInfo::Tiling::LINEAR;
 
   session_image_ = std::make_unique<mozart::client::Image>(
       memory, 0 /* memory offset */, std::move(image_info));
