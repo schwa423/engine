@@ -33,19 +33,9 @@ void ClipRRectLayer::UpdateScene(SceneUpdateContext& context) {
   FML_DCHECK(needs_system_composite());
 
   // TODO(SCN-137): Need to be able to express the radii as vectors.
-  scenic::RoundedRectangle shape(
-      context.session(),                                   // session
-      clip_rrect_.width(),                                 //  width
-      clip_rrect_.height(),                                //  height
-      clip_rrect_.radii(SkRRect::kUpperLeft_Corner).x(),   //  top_left_radius
-      clip_rrect_.radii(SkRRect::kUpperRight_Corner).x(),  //  top_right_radius
-      clip_rrect_.radii(SkRRect::kLowerRight_Corner)
-          .x(),                                          //  bottom_right_radius
-      clip_rrect_.radii(SkRRect::kLowerLeft_Corner).x()  //  bottom_left_radius
-  );
-
+  // TODO(SCN-140): Scenic can only clip to a list of planes.
   // TODO(liyuqian): respect clip_behavior_
-  SceneUpdateContext::Clip clip(context, shape, clip_rrect_.getBounds());
+  SceneUpdateContext::Clip clip(context, clip_rrect_.getBounds());
   UpdateSceneChildren(context);
 }
 

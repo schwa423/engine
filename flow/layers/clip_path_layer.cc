@@ -38,16 +38,10 @@ void ClipPathLayer::Preroll(PrerollContext* context, const SkMatrix& matrix) {
 void ClipPathLayer::UpdateScene(SceneUpdateContext& context) {
   FML_DCHECK(needs_system_composite());
 
-  // TODO(SCN-140): Must be able to specify paths as shapes to nodes.
-  //               Treating the shape as a rectangle for now.
-  auto bounds = clip_path_.getBounds();
-  scenic::Rectangle shape(context.session(),  // session
-                          bounds.width(),     //  width
-                          bounds.height()     //  height
-  );
-
+  // TODO(SCN-140): Scenic can only clip to a list of planes; there is no facility
+  // for clipping to a vector path.
   // TODO(liyuqian): respect clip_behavior_
-  SceneUpdateContext::Clip clip(context, shape, bounds);
+  SceneUpdateContext::Clip clip(context, clip_path_.getBounds());
   UpdateSceneChildren(context);
 }
 
